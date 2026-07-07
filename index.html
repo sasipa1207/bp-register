@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ลงทะเบียนผู้ใช้งาน</title>
+
+    <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+
+</head>
+
+<body>
+
+<h2>ลงทะเบียนผู้ใช้งาน</h2>
+
+<p>User ID:</p>
+<input id="userId" readonly>
+
+<br><br>
+
+ชื่อจริง:
+<input id="firstName">
+
+<br><br>
+
+นามสกุล:
+<input id="lastName">
+
+<br><br>
+
+อายุ:
+<input id="age">
+
+<br><br>
+
+โรคประจำตัว:
+<input id="disease">
+
+<br><br>
+
+<button onclick="sendData()">
+ส่งข้อมูล
+</button>
+
+
+<script>
+
+async function main(){
+
+    await liff.init({
+        liffId:"ใส่ LIFF ID ของคุณ"
+    });
+
+
+    const profile = await liff.getProfile();
+
+    document.getElementById("userId").value =
+    profile.userId;
+
+}
+
+
+async function sendData(){
+
+const data = {
+
+userId:
+document.getElementById("userId").value,
+
+firstName:
+document.getElementById("firstName").value,
+
+lastName:
+document.getElementById("lastName").value,
+
+age:
+document.getElementById("age").value,
+
+disease:
+document.getElementById("disease").value,
+
+registerDate:
+new Date().toISOString().split("T")[0]
+
+};
+
+
+await fetch(
+"ใส่ Webhook URL n8n",
+{
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify(data)
+
+});
+
+
+alert("บันทึกข้อมูลเรียบร้อย");
+
+}
+
+
+main();
+
+</script>
+
+
+</body>
+</html>
